@@ -1,0 +1,61 @@
+name: Bug report
+description: Something crashes, produces a worksheet Prime rejects, or behaves differently from the docs.
+title: "<command or tool>: <what goes wrong>"
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Issues are public. Please don't attach real project worksheets, client or
+        company names, file paths, or extracts from paid standards. A small
+        made-up example that shows the problem is ideal.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What I expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: The smallest synthetic YAML (or Python for `generate`) and the command or MCP tool you ran.
+      render: yaml
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      description: Error message or traceback, with private paths removed.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: mcdx-toolbox version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows, WSL, Linux, macOS]
+    validations:
+      required: true
+  - type: dropdown
+    id: used-via
+    attributes:
+      label: Used via
+      options: [Claude Code plugin, Other MCP client, CLI, Python API]
+    validations:
+      required: true
+  - type: input
+    id: mathcad
+    attributes:
+      label: Mathcad version
+      placeholder: "Prime 10, Express, or not involved"

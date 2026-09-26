@@ -1,0 +1,16 @@
+{
+  "name": "mcdx-toolbox",
+  "owner": {
+    "name": "Scott Hodge"
+  },
+  "metadata": {
+    "description": "Mathcad Prime worksheet tools and authoring skill for AI agents."
+  },
+  "plugins": [
+    {
+      "name": "mcdx-toolbox",
+      "source": "./",
+      "description": "Let an agent write, transcribe, read and visually review Mathcad Prime worksheets."
+    }
+  ]
+}

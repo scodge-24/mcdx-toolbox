@@ -1,4 +1,4 @@
-name: public-package
+name: CI
 on: [push, pull_request]
 permissions:
   contents: read
@@ -23,4 +23,5 @@ jobs:
         with:
           node-version: '22'
       - run: npm install -g @anthropic-ai/claude-code@2.1.283
-      - run: claude plugin validate .
+      - run: claude plugin validate .claude-plugin/plugin.json
+      - run: claude plugin validate .claude-plugin/marketplace.json

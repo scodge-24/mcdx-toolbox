@@ -1,0 +1,43 @@
+name: Feature request
+description: A block, expression, unit, layout or import capability you need that isn't supported.
+title: "Support <capability>"
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Issues are public. Please describe the need with made-up examples rather
+        than real project worksheets or extracts from paid standards.
+  - type: textarea
+    id: task
+    attributes:
+      label: What I'm trying to do
+      description: The engineering task, in a sentence or two.
+    validations:
+      required: true
+  - type: textarea
+    id: missing
+    attributes:
+      label: What's missing
+      description: The block, expression, unit, layout or import behaviour that isn't supported.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: How it could look in the YAML, or a synthetic example of the Mathcad construct.
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Current workaround
+  - type: input
+    id: version
+    attributes:
+      label: mcdx-toolbox version
+      placeholder: "0.1.0"
+  - type: dropdown
+    id: used-via
+    attributes:
+      label: Used via
+      options: [Claude Code plugin, Other MCP client, CLI, Python API]

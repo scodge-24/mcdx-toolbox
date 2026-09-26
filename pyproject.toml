@@ -5,16 +5,29 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mcdx-toolbox"
 version = "0.1.0"
-description = "Agent-oriented Mathcad Prime worksheet authoring, inspection and visual verification"
+description = "Let AI agents write, transcribe, read and visually check Mathcad Prime worksheets"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT AND OFL-1.1"
 license-files = ["LICENSE", "pymcdx/data/fonts/OFL-1.1.txt"]
 authors = [{name = "Scott Hodge"}]
+keywords = ["mathcad", "mathcad-prime", "mcdx", "engineering", "worksheets", "mcp", "claude"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
 dependencies = [
   "lxml>=4.9", "mcp>=1.28.1,<2", "pillow>=11", "pydantic>=2",
   "pypdfium2>=4.30", "pyyaml>=6",
 ]
+
+[project.urls]
+Repository = "https://github.com/scodge-24/mcdx-toolbox"
+Issues = "https://github.com/scodge-24/mcdx-toolbox/issues"
 
 [project.scripts]
 pymcdx = "pymcdx.worksheet_cli:main"

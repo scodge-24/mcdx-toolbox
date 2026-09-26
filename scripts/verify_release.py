@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import subprocess
+import sys
 import tarfile
 import tempfile
 from pathlib import Path
@@ -51,7 +52,9 @@ def main() -> None:
         sdist_example = roots[0] / "examples/basic.yaml"
         for index, artifact in enumerate([*wheel, *sdist]):
             environment = scratch / f"installed-{index}"
-            run(["uv", "venv", str(environment)], scratch)
+            # Pin the verifying interpreter: a bare `uv venv` picks the host default,
+            # which may be older than requires-python and then fails to install.
+            run(["uv", "venv", "--python", sys.executable, str(environment)], scratch)
             python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
             run(["uv", "pip", "install", "--python", str(python), str(artifact), "pytest"], scratch)
             run(

@@ -1,6 +1,6 @@
 ---
 name: mathcad-authoring
-description: Create, edit, import and review Mathcad Prime worksheets using semantic YAML and pymcdx. Use for worksheet calculations, prose and inline mathematics, page layout, figures, validation and optional real Prime visual review.
+description: Create, edit, import, transcribe, explain and review Mathcad Prime worksheets using semantic YAML and pymcdx. Use for worksheet calculations, prose and inline mathematics, page layout, figures, turning PDFs, scans or hand calculations into worksheets or templates, explaining the method inside existing worksheets, validation and optional real Prime visual review.
 ---
 
 # Mathcad worksheet authoring
@@ -15,6 +15,12 @@ For a new worksheet, start from the minimal example in
 outline and formatting, then import it as YAML; read all unsupported-region and
 approximation warnings before editing. Preserve the original worksheet.
 
+Two other jobs have their own references. To rebuild a PDF, scan, photo or hand
+calculation as a worksheet or template, read
+[Transcribing documents](references/transcribing-sources.md). To explain,
+document or compare the method inside existing worksheets without changing
+them, read [Reading existing worksheets](references/reading-existing-sheets.md).
+
 ## Author document intent
 
 Prefer semantic YAML over a one-off coordinate generator or raw package edits.
@@ -27,10 +33,14 @@ Keep compact related prose and inline maths together. Put substantial definition
 fractions and evaluated results on their own paragraph rows or in display math.
 Do not pack an entire derivation into one prose line. Use inline math even for
 bare variable references, especially subscripted names. A bare identifier without
-`unit` or `evaluate` is notation only. Request a result explicitly with `unit`
-or `evaluate: true`; definitions may carry those flags too.
+`unit` or `evaluate` is notation only. Only `inline_math` runs display results:
+request one with `unit` or `evaluate: true`. A `math` block cannot; to show a
+definition with its value, put the definition in a text block as a single
+`inline_math` run with `unit`. See
+[Showing results](references/authoring.md#showing-results).
 
-Reuse named styles. `indent: 0..4` establishes hierarchy; `width: half` styles
+Reuse the built-in named styles listed in the
+[authoring reference](references/authoring.md#styles). `indent: 0..4` establishes hierarchy; `width: half` styles
 allow paired groups. Use the same indent in paired columns. Keep `note` styling
 for actual caveats. Document metadata supplies the repeating header; do not invent
 authors, approval names, calculation references or dates. The built-in profile
@@ -38,7 +48,10 @@ uses a 40 mm top margin; preserve it unless changing and checking the page desig
 Headings are numbered automatically; do not type numbering into their text.
 
 Use `sqrt(x)` and `root(x, n)` for radicals. An underscore starts a subscript.
-Avoid variable names that collide with units such as `m`, `N` or `kN`. Write
+Only a small set of SI units is recognised; see
+[Units](references/authoring.md#units). An unrecognised unit such as `s` becomes
+an undefined variable without failing the build. Avoid variable names that
+collide with units such as `m`, `N` or `kN`. Write
 user functions as `function` blocks holding a supported Python `def`, above their
 callers; do not put `def` or `lambda` in ordinary math. `if_(test, a, b)` expresses
 the built-in conditional; a Python conditional expression becomes a program.
@@ -92,6 +105,14 @@ format issue. Rendering does not independently verify numerical results. State
 what was structurally checked, what was visually reviewed, and what numerical
 verification was actually performed. Engineering calculations still require
 appropriate independent engineering verification.
+
+## Report gaps
+
+When the toolbox can't do something the user needs, crashes, or behaves
+differently from these references, tell the user and offer to draft a GitHub
+issue. Read [Reporting issues](references/reporting-issues.md) for when to offer,
+the privacy rules and the report skeletons. Never file one without the user's
+go-ahead.
 
 ## Maintaining the distribution
 

@@ -19,17 +19,21 @@ Prime tests skip by default. On a supported local host, opt in with
 the shell's native syntax on Windows). A passing no-Prime CI run does not establish
 desktop or numerical acceptance.
 
-`claude plugin validate .` checks plugin structure. It does not establish safe
-behaviour, numerical correctness, licensing, host compatibility or acceptance
-into Anthropic's directory. The directory's current submission flow includes
+`claude plugin validate .claude-plugin/plugin.json` checks plugin structure and
+`claude plugin validate .claude-plugin/marketplace.json` checks the single-plugin
+marketplace that lets users run `/plugin marketplace add scodge-24/mcdx-toolbox`.
+Validating the repository root checks only the marketplace, so CI validates both
+files. Validation does not establish safe behaviour, numerical correctness,
+licensing, host compatibility or acceptance into Anthropic's directory. The directory's current submission flow includes
 separate validation/security review and publisher approval. Confirm portal-specific
 size, file-type and binary restrictions when submitting; no numeric limit is
 assumed here. This bundle includes source and text assets, not interpreter or
 Prime executables. Dependency installers may obtain platform binaries separately.
 
 Keep plugin and package versions equal. Regenerate and commit `uv.lock` after a
-reviewed dependency change. The local launcher uses `uv run --locked --no-dev`
-against the plugin root. A future published-package launcher may use a pinned
+reviewed dependency change, and re-check dependency licences against the
+repository's `NOTICE.md` whenever the lockfile changes. The local launcher uses
+`uv run --locked --no-dev` against the plugin root. A future published-package launcher may use a pinned
 `uvx --from mcdx-toolbox==VERSION pymcdx mcp`, only after that version actually
 exists under the publisher's control. pipx is a user-managed installation option,
 not an automatic plugin bootstrap step.
@@ -48,9 +52,8 @@ Normal Claude chat cannot run this local MCP server via the plugin.
 
 The repository topics describe Mathcad, Python/CLI, MCP and the Claude plugin;
 they do not advertise a standalone numerical solver. The README links the real
-CI workflow and MIT licence. The CI badge may not render for unauthenticated
-visitors while the repository is private. Add a PyPI version badge and registry
-link only after a package is actually published. Leave the repository homepage
+CI workflow and MIT licence. Add a PyPI version badge and registry link only
+after a package is actually published. Leave the repository homepage
 unset until there is a dedicated documentation site.
 
 `.github/social-preview.svg` is original project artwork using a synthetic
