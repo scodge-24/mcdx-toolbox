@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.mathsoft.com/math50"
+    xmlns="http://schemas.mathsoft.com/math50"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+  <!--
+    Mathcad Math (ml) core schema — strict(ish) pass focused on math regions.
+    Notes:
+      • Models expression trees with <apply> containing one operator element
+        (e.g., <plus/>, <equals/>, <pow/>, etc.) followed by N operands (Expression).
+      • Numeric atoms (<real>, <int>) use a @value attribute; allow mixed content for robustness.
+      • Control keywords (<if>, <then>, <else>, <alsoif>) are modeled as Expressions with a single child Expression.
+      • Vector/Matrix modeled as homogeneous containers of Expression / Vector respectively.
+      • Any attributes allowed (lax) to avoid blocking undocumented metadata.
+  -->
+
+  <!-- === Operator elements (empty, used inside <apply>) -->
+  <xs:element name="equals" type="EmptyOperatorType"/>
+  <xs:element name="equal" type="EmptyOperatorType"/>
+  <xs:element name="plus"   type="EmptyOperatorType"/>
+  <xs:element name="minus"  type="EmptyOperatorType"/>
+  <xs:element name="times"  type="EmptyOperatorType"/>
+  <xs:element name="mult"   type="EmptyOperatorType"/>
+  <xs:element name="divide" type="EmptyOperatorType"/>
+  <xs:element name="div"    type="EmptyOperatorType"/>
+  <xs:element name="pow"    type="EmptyOperatorType"/>
+  <xs:element name="sqrt"   type="EmptyOperatorType"/>
+  <xs:element name="scale"  type="EmptyOperatorType"/>
+  <xs:element name="indexer" type="EmptyOperatorType"/>
+  <xs:element name="nthRoot" type="EmptyOperatorType"/>
+  <xs:element name="determinant" type="EmptyOperatorType"/>
+  <xs:element name="and" type="EmptyOperatorType"/>
+  <xs:element name="greaterOrEqual" type="EmptyOperatorType"/>
+  <xs:element name="greaterThan" type="EmptyOperatorType"/>
+  <xs:element name="lessOrEqual" type="EmptyOperatorType"/>
+  <xs:element name="lessThan" type="EmptyOperatorType"/>
+  <xs:element name="notEqual" type="EmptyOperatorType"/>
+  <xs:element name="or" type="EmptyOperatorType"/>
+  <xs:element name="absval" type="EmptyOperatorType"/>
+  <xs:element name="neg" type="EmptyOperatorType"/>
+  <xs:element name="vectorize" type="EmptyOperatorType"/>
+  <xs:element name="placeholder" type="EmptyOperatorType"/>
+  <xs:element name="transpose" type="EmptyOperatorType"/>
+  <xs:element name="integral" type="EmptyOperatorType"/>
+
+  <!-- Parens can be both operator and expression container -->
+  <xs:element name="parens" type="ParensType"/>
+
+  <xs:complexType name="EmptyOperatorType">
+    <xs:annotation><xs:documentation>Marker operator; no content. Used as first child of &lt;apply&gt;.</xs:documentation></xs:annotation>
+    <xs:sequence/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="ParensType" mixed="true">
+    <xs:annotation><xs:documentation>Parentheses can be empty (as operator) or contain expressions (as wrapper).</xs:documentation></xs:annotation>
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- === Expression model -->
+  <xs:group name="Expression">
+    <xs:choice>
+      <xs:element ref="apply"/>
+      <xs:element ref="define"/>
+      <xs:element ref="eval"/>
+      <xs:element ref="real"/>
+      <xs:element ref="int"/>
+      <xs:element ref="str"/>
+      <xs:element ref="id"/>
+      <xs:element ref="function"/>
+      <xs:element ref="vector"/>
+      <xs:element ref="matrix"/>
+      <xs:element ref="sequence"/>
+      <xs:element ref="program"/>
+      <xs:element ref="if"/>
+      <xs:element ref="then"/>
+      <xs:element ref="else"/>
+      <xs:element ref="alsoif"/>
+      <xs:element ref="test"/>
+      <xs:element ref="tryCatch"/>
+      <xs:element ref="boundVars"/>
+      <xs:element ref="unitOverride"/>
+      <!-- Control flow (extended) -->
+      <xs:element ref="elseif"/>
+      <xs:element ref="for"/>
+      <xs:element ref="while"/>
+      <xs:element ref="range"/>
+      <xs:element ref="return"/>
+      <!-- Program -->
+      <xs:element ref="localDefine"/>
+      <xs:element ref="lambda"/>
+      <!-- Containers -->
+      <xs:element ref="matcol"/>
+      <!-- Calculus bounds -->
+      <xs:element ref="lowerBound"/>
+      <xs:element ref="upperBound"/>
+      <xs:element ref="rowName"/>
+      <!-- Allow parentheses as an expression wrapper via <apply><parens/> E ...</apply>,
+           but we also accept a bare <parens/> token where exported -->
+      <xs:element ref="parens"/>
+      <!-- Allow placeholder as expression too -->
+      <xs:element ref="placeholder"/>
+      <!-- ComboBox elements -->
+      <xs:element ref="ComboBoxControl"/>
+      <xs:element ref="ComboBoxRowNames"/>
+      <xs:element ref="ComboBoxScaleFactors"/>
+      <xs:element ref="ComboBoxValues"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- apply: operator-led n-ary node -->
+  <xs:element name="apply" type="ApplyType"/>
+  <xs:complexType name="ApplyType">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element ref="equals"/>
+        <xs:element ref="equal"/>
+        <xs:element ref="plus"/>
+        <xs:element ref="minus"/>
+        <xs:element ref="times"/>
+        <xs:element ref="mult"/>
+        <xs:element ref="divide"/>
+        <xs:element ref="div"/>
+        <xs:element ref="pow"/>
+        <xs:element ref="sqrt"/>
+        <xs:element ref="parens"/>
+        <xs:element ref="scale"/>
+        <xs:element ref="indexer"/>
+        <xs:element ref="nthRoot"/>
+        <xs:element ref="determinant"/>
+        <xs:element ref="and"/>
+        <xs:element ref="greaterOrEqual"/>
+        <xs:element ref="greaterThan"/>
+        <xs:element ref="lessOrEqual"/>
+        <xs:element ref="lessThan"/>
+        <xs:element ref="notEqual"/>
+        <xs:element ref="or"/>
+        <xs:element ref="absval"/>
+        <xs:element ref="neg"/>
+        <xs:element ref="vectorize"/>
+        <xs:element ref="placeholder"/>
+        <xs:element ref="transpose"/>
+        <xs:element ref="integral"/>
+        <!-- Allow id elements in operator position for function calls -->
+        <xs:element ref="id"/>
+      </xs:choice>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- Literals -->
+  <xs:element name="real" type="RealType"/>
+  <xs:complexType name="RealType" mixed="true">
+    <xs:sequence/>
+    <xs:attribute name="value" type="xs:decimal" use="optional"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="int" type="IntType"/>
+  <xs:complexType name="IntType" mixed="true">
+    <xs:sequence/>
+    <xs:attribute name="value" type="xs:integer" use="optional"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="str" type="StringAtomType"/>
+  <xs:complexType name="StringAtomType" mixed="true">
+    <xs:sequence/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="id" type="IdType"/>
+  <xs:complexType name="IdType" mixed="true">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- Top-level statement elements -->
+  <xs:element name="define" type="DefineType"/>
+  <xs:complexType name="DefineType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="eval" type="EvalType"/>
+  <xs:complexType name="EvalType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- Containers -->
+  <xs:element name="vector" type="VectorType"/>
+  <xs:complexType name="VectorType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="matrix" type="MatrixType"/>
+  <xs:complexType name="MatrixType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="sequence" type="SequenceType"/>
+  <xs:complexType name="SequenceType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="program" type="ProgramType"/>
+  <xs:complexType name="ProgramType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- Control flow (simplified) -->
+  <xs:element name="if" type="IfType"/>
+  <xs:element name="then" type="ProgramWrapper"/>
+  <xs:element name="else" type="ProgramWrapper"/>
+  <xs:element name="alsoif" type="AlsoIfType"/>
+  
+  <xs:complexType name="IfType">
+    <xs:sequence>
+      <xs:element ref="test" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="then" minOccurs="1" maxOccurs="1"/>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="alsoif"/>
+        <xs:element ref="elseif"/>
+      </xs:choice>
+      <xs:element ref="else" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+  
+  <xs:complexType name="AlsoIfType">
+    <xs:sequence>
+      <xs:element ref="test" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="then" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+  
+  <xs:complexType name="ProgramWrapper">
+    <xs:annotation><xs:documentation>then/else bodies must contain a program element.</xs:documentation></xs:annotation>
+    <xs:sequence>
+      <xs:element ref="program" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- elseif: same structure as alsoif (test + then) -->
+  <xs:element name="elseif" type="AlsoIfType"/>
+
+  <!-- for: iterator variable, range, body program -->
+  <xs:element name="for" type="ForType"/>
+  <xs:complexType name="ForType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- while: condition expression + body program -->
+  <xs:element name="while" type="WhileType"/>
+  <xs:complexType name="WhileType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- range: start and end expressions (optional step) -->
+  <xs:element name="range" type="MultiExpressionWrapper"/>
+
+  <!-- return: single expression -->
+  <xs:element name="return" type="UnaryExpressionWrapper"/>
+
+  <!-- localDefine: same structure as define -->
+  <xs:element name="localDefine" type="DefineType"/>
+
+  <!-- lambda: boundVars + expression body -->
+  <xs:element name="lambda" type="LambdaType"/>
+  <xs:complexType name="LambdaType">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- matcol: column entries in a matrix -->
+  <xs:element name="matcol" type="MultiExpressionWrapper"/>
+
+  <!-- Calculus bounds -->
+  <xs:element name="lowerBound" type="UnaryExpressionWrapper"/>
+  <xs:element name="upperBound" type="UnaryExpressionWrapper"/>
+
+  <xs:complexType name="UnaryExpressionWrapper">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="MultiExpressionWrapper">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- Units & labels -->
+  <xs:element name="unitOverride" type="UnitOverrideType"/>
+  <xs:complexType name="UnitOverrideType" mixed="true">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="unit" type="xs:string" use="optional"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="rowName" type="RowNameType"/>
+  <xs:complexType name="RowNameType" mixed="true">
+    <xs:sequence/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <!-- Additional elements found in the XML -->
+  <xs:element name="function" type="FunctionType"/>
+  <xs:complexType name="FunctionType" mixed="true">
+    <xs:sequence>
+      <xs:group ref="Expression" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="test" type="UnaryExpressionWrapper"/>
+  <xs:element name="tryCatch" type="MultiExpressionWrapper"/>
+  <!-- boundVars may contain multiple parameter ids in function/lambda signatures -->
+  <xs:element name="boundVars" type="MultiExpressionWrapper"/>
+
+  <!-- ComboBox elements -->
+  <xs:element name="ComboBoxControl" type="ComboBoxType"/>
+  <xs:element name="ComboBoxRowNames" type="ComboBoxType"/>
+  <xs:element name="ComboBoxScaleFactors" type="ComboBoxType"/>
+  <xs:element name="ComboBoxValues" type="ComboBoxType"/>
+  <xs:complexType name="ComboBoxType" mixed="true">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+</xs:schema>

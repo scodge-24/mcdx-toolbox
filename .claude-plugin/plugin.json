@@ -1,0 +1,8 @@
+{
+  "name": "mcdx-toolbox",
+  "version": "0.1.0",
+  "description": "Inspect, author, validate and visually review Mathcad Prime worksheets, with optional local Prime rendering.",
+  "author": {"name": "Scott Hodge"},
+  "license": "MIT",
+  "keywords": ["mathcad", "worksheets", "engineering", "mcp"]
+}

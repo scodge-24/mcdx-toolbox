@@ -1,0 +1,30 @@
+schema_version: 1
+document:
+  title: Synthetic worksheet example
+  author: Example author
+worksheet:
+  paper: A4
+  orientation: portrait
+  margins_mm: {left: 5, top: 40, right: 5, bottom: 12.5}
+  grid: fine
+blocks:
+  - kind: heading
+    level: 1
+    text: A simple rectangle
+  - kind: text
+    runs:
+      - kind: text
+        text: "Synthetic dimensions for a demonstration, not an engineering design."
+  - kind: math
+    expression: "width = 3 * mm"
+  - kind: math
+    expression: "height = 4 * mm"
+  - kind: math
+    expression: "area = width * height"
+  - kind: text
+    runs:
+      - kind: text
+        text: "Area: "
+      - kind: inline_math
+        expression: area
+        unit: mm2

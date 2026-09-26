@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <!-- Default content types for common extensions -->
+  <Default Extension="xml" ContentType="application/vnd.openxmlformats-officedocument.mathprocessingml.mathcad.main+xml" />
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml" />
+  <Default Extension="XamlPackage" ContentType="application/zip" />
+  <Default Extension="png" ContentType="image/png" />
+  <Default Extension="ole" ContentType="application/vnd.openxmlformats-officedocument.oleObject" />
+
+  <!-- Override content types for specific files -->
+  <Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml" />
+  <Override PartName="/docProps/app.xml" ContentType="application/mathcad.extended-properties+xml" />
+  <Override PartName="/mathcad/settings/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.mathprocessingml.mathcad.settings.presentation+xml" />
+  <Override PartName="/mathcad/settings/calculation.xml" ContentType="application/vnd.openxmlformats-officedocument.mathprocessingml.mathcad.settings.calculation+xml" />
+  <Override PartName="/mathcad/result.xml" ContentType="application/vnd.openxmlformats-officedocument.mathprocessingml.mathcad.result+xml" />
+  <Override PartName="/mathcad/integration.xml" ContentType="application/vnd.openxmlformats-officedocument.mathprocessingml.mathcad.integration+xml" />
+</Types>

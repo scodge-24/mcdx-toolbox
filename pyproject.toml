@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcdx-toolbox"
+version = "0.1.0"
+description = "Agent-oriented Mathcad Prime worksheet authoring, inspection and visual verification"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT AND OFL-1.1"
+license-files = ["LICENSE", "pymcdx/data/fonts/OFL-1.1.txt"]
+authors = [{name = "Scott Hodge"}]
+dependencies = [
+  "lxml>=4.9", "mcp>=1.28.1,<2", "pillow>=11", "pydantic>=2",
+  "pypdfium2>=4.30", "pyyaml>=6",
+]
+
+[project.scripts]
+pymcdx = "pymcdx.worksheet_cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff", "pyright", "lxml-stubs", "build", "pytest-cov"]
+
+[tool.setuptools.packages.find]
+include = ["pymcdx*"]
+
+[tool.setuptools.package-data]
+pymcdx = ["xsd/*.xsd", "templates/*.xml", "prime/*.ps1", "data/fonts/*.json", "data/fonts/*.txt"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "SIM", "RET", "ASYNC", "S", "UP", "RUF", "G", "DTZ", "PTH", "T20", "LOG", "ANN401"]
+ignore = ["S101"]
+allowed-confusables = ["γ", "∨", "×"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/*cli.py" = ["T201"]
+"scripts/**" = ["T201", "S607"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pymcdx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["prime: requires a local Windows Mathcad Prime installation"]
+
+[tool.pyright]
+typeCheckingMode = "standard"
+pythonVersion = "3.12"
+venvPath = "."
+venv = ".venv"
+exclude = [".venv", "build", "dist"]

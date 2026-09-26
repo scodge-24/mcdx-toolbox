@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.mathsoft.com/result10"
+    xmlns="http://schemas.mathsoft.com/result10"
+    xmlns:ml="http://schemas.mathsoft.com/math50"
+    xmlns:u="http://schemas.mathsoft.com/units10"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+  <!--
+    Mathcad Result (result10) schema for calculation results storage.
+    Notes:
+      • Models calculation results with resultsList containing multiple resultData elements
+      • Each resultData can contain ml:result (math expressions), Warnings, or engineErrors
+      • Supports both successful calculations and error states
+      • Uses lax validation for ml: and u: namespace content (handled by separate schemas)
+  -->
+
+  <!-- === Root element === -->
+  <xs:element name="resultsList" type="ResultsListType"/>
+
+  <!-- === Complex types === -->
+  <xs:complexType name="ResultsListType">
+    <xs:annotation>
+      <xs:documentation>Root container for all calculation results</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="resultData" type="ResultDataType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="ResultDataType">
+    <xs:annotation>
+      <xs:documentation>Container for a single calculation result with optional content</xs:documentation>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- Math result from ml: namespace -->
+      <xs:any namespace="http://schemas.mathsoft.com/math50" processContents="lax"/>
+      <!-- Units from u: namespace -->
+      <xs:any namespace="http://schemas.mathsoft.com/units10" processContents="lax"/>
+      <!-- Result10 specific elements -->
+      <xs:element name="Warnings" type="WarningsType"/>
+      <xs:element name="engineErrors" type="EngineErrorsType"/>
+    </xs:choice>
+    <xs:attribute name="result-id" type="xs:string" use="required"/>
+    <xs:attribute name="calculation-status" type="xs:string" use="required"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="WarningsType">
+    <xs:annotation>
+      <xs:documentation>Container for calculation warnings</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Warning" type="WarningType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="WarningType">
+    <xs:annotation>
+      <xs:documentation>Individual calculation warning</xs:documentation>
+    </xs:annotation>
+    <xs:sequence/>
+    <xs:attribute name="nodeId" type="xs:string"/>
+    <xs:attribute name="oldType" type="xs:string"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="EngineErrorsType">
+    <xs:annotation>
+      <xs:documentation>Container for calculation engine errors</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="engineError" type="EngineErrorType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="EngineErrorType">
+    <xs:annotation>
+      <xs:documentation>Individual calculation engine error with details</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="errorArgument" type="xs:string" minOccurs="0"/>
+      <xs:element name="resource-string" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="error-id" type="xs:string"/>
+    <xs:attribute name="error-node-handle" type="xs:string"/>
+    <xs:attribute name="previous-error-id" type="xs:string"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+</xs:schema>

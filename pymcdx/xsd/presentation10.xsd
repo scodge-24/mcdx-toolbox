@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.ptc.com/mathcad/settings/presentation10"
+    xmlns="http://schemas.ptc.com/mathcad/settings/presentation10"
+    xmlns:ws="http://schemas.mathsoft.com/worksheet50"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+  <!--
+    Mathcad Presentation Settings (presentation10) schema for display configuration.
+    Notes:
+      • Models presentation settings including page layout, math rendering, and text styling
+      • Contains pageModel for paper settings, mathRendering for math display, textRendering for text display
+      • Supports font styles, colors, and layout configuration
+      • Integrates with worksheet50 namespace for results settings
+  -->
+
+  <!-- === Root element === -->
+  <xs:element name="presentation" type="PresentationType"/>
+
+  <!-- === Complex types === -->
+  <xs:complexType name="PresentationType">
+    <xs:annotation>
+      <xs:documentation>Root presentation settings container</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="pageModel" type="PageModelType" minOccurs="0"/>
+      <xs:element name="mathRendering" type="MathRenderingType" minOccurs="0"/>
+      <xs:element name="textRendering" type="TextRenderingType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="PageModelType">
+    <xs:annotation>
+      <xs:documentation>Page layout and paper settings</xs:documentation>
+    </xs:annotation>
+    <xs:sequence/>
+    <xs:attribute name="paper-code" type="xs:string"/>
+    <xs:attribute name="grid-size" type="xs:string"/>
+    <xs:attribute name="orientation" type="xs:string"/>
+    <xs:attribute name="margin-type" type="xs:string"/>
+    <xs:attribute name="page-margin" type="xs:string"/>
+    <xs:attribute name="show-page-frame" type="xs:string"/>
+    <xs:attribute name="show-header-frame" type="xs:string"/>
+    <xs:attribute name="spell-check-enabled" type="xs:string"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="MathRenderingType">
+    <xs:annotation>
+      <xs:documentation>Math display and rendering settings</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="mathStyles" type="MathStylesType" minOccurs="0"/>
+      <xs:element name="formatting" type="FormattingType" minOccurs="0"/>
+      <!-- Allow worksheet50 namespace elements for results settings -->
+      <xs:any namespace="http://schemas.mathsoft.com/worksheet50" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="MathStylesType">
+    <xs:annotation>
+      <xs:documentation>Container for math style definitions</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="mathStyle" type="MathStyleType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="MathStyleType">
+    <xs:annotation>
+      <xs:documentation>Individual math style definition</xs:documentation>
+    </xs:annotation>
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="font-family" type="xs:string"/>
+    <xs:attribute name="font-size" type="xs:string"/>
+    <xs:attribute name="font-weight" type="xs:string"/>
+    <xs:attribute name="font-style" type="xs:string"/>
+    <xs:attribute name="color" type="xs:string"/>
+    <xs:attribute name="font-stretch" type="xs:string"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="FormattingType">
+    <xs:annotation>
+      <xs:documentation>General formatting settings</xs:documentation>
+    </xs:annotation>
+    <xs:sequence/>
+    <xs:attribute name="FontFamily" type="xs:string"/>
+    <xs:attribute name="FontSize" type="xs:string"/>
+    <xs:attribute name="Bold" type="xs:string"/>
+    <xs:attribute name="Italic" type="xs:string"/>
+    <xs:attribute name="Underline" type="xs:string"/>
+    <xs:attribute name="ForegroundColor" type="xs:string"/>
+    <xs:attribute name="BackgroundColor" type="xs:string"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="TextRenderingType">
+    <xs:annotation>
+      <xs:documentation>Text display and rendering settings</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="textStyles" type="TextStylesType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="ProofingLanguage" type="xs:string"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="TextStylesType">
+    <xs:annotation>
+      <xs:documentation>Container for text style definitions</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="textStyle" type="TextStyleType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="TextStyleType">
+    <xs:annotation>
+      <xs:documentation>Individual text style definition</xs:documentation>
+    </xs:annotation>
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="font-family" type="xs:string"/>
+    <xs:attribute name="font-size" type="xs:string"/>
+    <xs:attribute name="font-weight" type="xs:string"/>
+    <xs:attribute name="font-style" type="xs:string"/>
+    <xs:attribute name="variants" type="xs:string"/>
+    <xs:attribute name="background" type="xs:string"/>
+    <xs:attribute name="foreground" type="xs:string"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+
+</xs:schema>

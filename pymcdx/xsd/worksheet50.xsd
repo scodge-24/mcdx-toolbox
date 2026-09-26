@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.mathsoft.com/worksheet50" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:ws="http://schemas.mathsoft.com/worksheet50" xmlns:ml="http://schemas.mathsoft.com/math50">
+
+  
+  <xs:import namespace="http://schemas.mathsoft.com/math50" schemaLocation="math50.xsd" />
+
+  
+  <xs:element name="worksheet" type="ws:WorksheetType" />
+
+  <xs:complexType name="WorksheetType">
+    <xs:sequence>
+      <xs:element name="regions" type="ws:RegionsType" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+    
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="RegionsType">
+    <xs:sequence>
+      <xs:element name="region" type="ws:RegionType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  
+  <xs:complexType name="RegionType">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="math" type="ws:MathRegionType" />
+        <xs:element name="text" type="ws:TextRegionType" />
+        <xs:element name="regions" type="ws:RegionsType" />
+        <xs:element name="Area" type="ws:AreaType" />
+        <xs:element name="picture" type="ws:PictureRegionType" />
+        <xs:element name="spec-table" type="ws:SpecTableRegionType" />
+        <xs:element name="excelComponent" type="ws:ExcelComponentRegionType" />
+        <xs:element name="pageBreak" type="ws:PageBreakRegionType" />
+      </xs:choice>
+    </xs:sequence>
+
+    
+    <xs:attribute name="region-id" type="xs:string" use="required" />
+
+    
+    <xs:attribute name="width" type="xs:double" use="optional" />
+    <xs:attribute name="actualWidth" type="xs:double" use="optional" />
+    <xs:attribute name="actualHeight" type="xs:double" use="optional" />
+    <xs:attribute name="top" type="xs:double" use="optional" />
+    <xs:attribute name="left" type="xs:double" use="optional" />
+    <xs:attribute name="text-caret-position" type="xs:integer" use="optional" />
+
+    
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="MathRegionType">
+    <xs:sequence>
+      
+      <xs:group ref="ml:Expression"/>
+      
+      <xs:element name="resultFormat" minOccurs="0" maxOccurs="1">
+        <xs:complexType mixed="true">
+          <xs:sequence>
+            <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:anyAttribute processContents="lax"/>
+        </xs:complexType>
+      </xs:element>
+      
+      <xs:element name="formattingOverride" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType mixed="true">
+          <xs:sequence>
+            <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:anyAttribute processContents="lax"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="resultRef" type="xs:string" use="optional" />
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="TextRegionType">
+    <xs:sequence>
+      
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+      
+      <xs:element name="regions" type="ws:RegionsType" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="item-idref" type="xs:string" use="optional" />
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="AreaType">
+    <xs:sequence>
+      <xs:element name="regions" type="ws:RegionsType" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="PictureRegionType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="SpecTableRegionType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="ExcelComponentRegionType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="PageBreakRegionType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+
+<xs:annotation><xs:documentation>Auto-augmented on discovery from '251007 WIP EC3 mcad blocks.mcdx': added 21 worksheet elements not present in the provided XSD.</xs:documentation></xs:annotation><xs:element name="Area"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="InputSection"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="OleViewportSize"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="OutputSection"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="decimal"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="excelComponent"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="excelTable"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="fieldText"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="footer"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="formattingOverride"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="general"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="header"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="matrix"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="pageBreak"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="pageNumber"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="picture"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="png"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="resultFormat"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="results"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="spec-table"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element><xs:element name="unit"><xs:complexType mixed="true"><xs:sequence><xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" /></xs:sequence><xs:anyAttribute processContents="lax" /></xs:complexType></xs:element></xs:schema>
