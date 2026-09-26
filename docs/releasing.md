@@ -35,3 +35,31 @@ Official references checked during preparation:
 Test native Windows and WSL separately. Cowork runtime isolation may prevent
 desktop COM access; do not advertise that integration based on CLI success alone.
 Normal Claude chat cannot run this local MCP server via the plugin.
+
+## Public launch metadata
+
+The repository topics describe Mathcad, Python/CLI, MCP and the Claude plugin;
+they do not advertise a standalone numerical solver. The README links the real
+CI workflow and MIT licence. The CI badge may not render for unauthenticated
+visitors while the repository is private. Add a PyPI version badge and registry
+link only after a package is actually published. Leave the repository homepage
+unset until there is a dedicated documentation site.
+
+`docs/assets/social-preview.svg` is original project artwork using a synthetic
+worksheet illustration, explicitly not a Prime render. Convert it to a 1280×640
+PNG for GitHub (requires Cairo and the optional CairoSVG tool, not a runtime
+package dependency):
+
+```bash
+uv run --no-project --with cairosvg==2.8.2 cairosvg docs/assets/social-preview.svg -o social-preview.png
+```
+
+Inspect the PNG and keep it below 1 MB. The generated PNG is an upload artifact,
+not a source export. GitHub's first social-preview upload requires a public
+repository; after the owner changes visibility, upload it under Settings →
+General → Social preview. See [GitHub's social-preview guidance](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview).
+
+After the owner approves a release, confirm matching package/plugin versions,
+green CI and the acceptance limits above, then tag the reviewed commit and create
+a GitHub Release with those limits in its notes. Do not create a release, publish
+to PyPI, change visibility or submit to a directory merely by running validation.

@@ -1,5 +1,8 @@
 # mcdx-toolbox
 
+[![CI](https://github.com/scodge-24/mcdx-toolbox/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/scodge-24/mcdx-toolbox/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Agent-oriented tooling for Mathcad Prime `.mcdx` worksheets: inspect, create,
 modify, validate, import/export and visually verify worksheets, with optional
 integration with a locally installed copy of Mathcad Prime.
