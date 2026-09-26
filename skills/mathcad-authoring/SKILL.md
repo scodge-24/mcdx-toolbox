@@ -65,6 +65,8 @@ it is not a Prime render. Schema-valid does not imply Prime-valid.
 
 When a Windows host has Prime/Express, render every page and inspect the PNGs:
 
+Read [Prime render visual checks](references/prime-render-visual-check.md) before accepting a generated or edited worksheet, or changing code that shapes its presentation.
+
 ```bash
 pymcdx render calculation.mcdx -o calculation.render --resave accepted.mcdx
 pymcdx render-diff previous.render calculation.render -o differences
