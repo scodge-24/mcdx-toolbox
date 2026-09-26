@@ -159,6 +159,9 @@ For the curious, or for anyone improving the tool:
 
 - [Mathcad authoring skill](skills/mathcad-authoring/SKILL.md): exactly what
   the agent is told to do.
+- [Security and runtime behaviour](SECURITY.md): what the plugin does on your
+  machine (no network use at runtime, which processes rendering starts, how
+  dependencies are pinned) and how to report a vulnerability.
 - [YAML authoring reference](skills/mathcad-authoring/references/authoring.md)
   and [Prime visual review](skills/mathcad-authoring/references/prime-render-visual-check.md).
 - Contributing: `uv sync --locked`, then
