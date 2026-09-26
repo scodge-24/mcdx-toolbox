@@ -7,7 +7,7 @@
     attributeFormDefault="unqualified">
 
   <!--
-    Mathcad Math (ml) core schema — strict(ish) pass focused on math regions.
+  Schema covering core Mathcad math regions.
     Notes:
       • Models expression trees with <apply> containing one operator element
         (e.g., <plus/>, <equals/>, <pow/>, etc.) followed by N operands (Expression).

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <title>mcdx-toolbox worksheet icon</title>
+  <rect width="256" height="256" rx="48" fill="#101c30"/>
+  <path d="M64 36h92l36 36v148H64z" fill="#f5f8fc"/>
+  <path d="M156 36v36h36" fill="#a9bdcf"/>
+  <path d="m84 134 14 14 22-52h44" fill="none" stroke="#137b66" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M132 123h32m-32 19h32M86 180h78" stroke="#137b66" stroke-width="9" stroke-linecap="round"/>
+</svg>
