@@ -22,7 +22,7 @@ mcdx-toolbox gives the agent that ability. Install it as a Claude Code plugin
 
 <!-- TODO: hero image — the request on the left, a real Prime render of the
      resulting worksheet on the right. -->
-![A request to an agent becomes a Mathcad Prime worksheet](.github/social-preview.png)
+![Illustrative worksheet authoring workflow; not a Prime render](.github/social-preview.svg)
 
 ## What you can ask for
 
@@ -115,8 +115,10 @@ This installs the Mathcad authoring skill and the worksheet tools. Then just
 ask. The first tool call may take a moment while uv fetches dependencies. To
 work from a clone instead, use `claude --plugin-dir /absolute/path/to/mcdx-toolbox`.
 
-**Any other MCP-capable agent:** run `pymcdx mcp` as a local stdio server. It
-provides `build_worksheet`, `inspect_worksheet`, `import_worksheet`,
+**Any other MCP-capable agent:** from a cloned checkout, install the CLI with
+`uv tool install .` (Python 3.12+), then configure `pymcdx mcp` as a local stdio
+server. Installation is currently from source; no PyPI release is available. It
+provides `build_worksheet`, `generate_worksheet`, `inspect_worksheet`, `import_worksheet`,
 `validate_worksheet`, `layout_check`, `layout_preview`, `render_worksheet` and
 `compare_renders`.
 
