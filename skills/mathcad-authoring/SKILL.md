@@ -10,8 +10,8 @@ in Prime → visually inspect. Use the installed `pymcdx` CLI or this plugin's M
 tools. When working from the plugin checkout, `uv run --project <plugin-directory>
 --locked pymcdx ...` runs its pinned environment. Do not assume a developer checkout.
 
-For a new worksheet, start from `examples/basic.yaml` at the plugin root (two
-directories above this skill folder). For an existing worksheet, inspect its
+For a new worksheet, start from the minimal example in
+[Semantic authoring](references/authoring.md). For an existing worksheet, inspect its
 outline and formatting, then import it as YAML; read all unsupported-region and
 approximation warnings before editing. Preserve the original worksheet.
 
@@ -19,7 +19,7 @@ approximation warnings before editing. Preserve the original worksheet.
 
 Prefer semantic YAML over a one-off coordinate generator or raw package edits.
 Use ordered heading, text, math, function, image, check, summary, contents and
-page-break blocks. Read `docs/authoring.md` at the plugin root for the public
+page-break blocks. Read [Semantic authoring](references/authoring.md) for the public
 schema and examples. Unknown blocks and expressions should fail clearly; do not
 inject XML to conceal unsupported semantics.
 
@@ -49,6 +49,9 @@ the result, then let layout size and place it. Confirm legibility in the final
 render. Do not bundle third-party figures without redistribution permission.
 
 ## Build and inspect evidence
+
+Read [Worksheet workflow and host setup](references/workflow.md) when importing,
+running CLI/MCP tools, configuring Windows/WSL, or troubleshooting a render.
 
 ```bash
 pymcdx build calculation.yaml calculation.mcdx --report build.json --preview layout.svg
@@ -89,3 +92,9 @@ format issue. Rendering does not independently verify numerical results. State
 what was structurally checked, what was visually reviewed, and what numerical
 verification was actually performed. Engineering calculations still require
 appropriate independent engineering verification.
+
+## Maintaining the distribution
+
+Only when developing or releasing the tool, read
+[Release validation](references/releasing.md) for package/plugin checks and
+publication boundaries. It is not required for ordinary worksheet work.

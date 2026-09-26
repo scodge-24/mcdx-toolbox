@@ -1,7 +1,41 @@
 # Semantic worksheet authoring
 
-Start with `examples/basic.yaml`. YAML is data, not executable Python; expressions
+YAML is data, not executable Python; expressions
 are parsed into the supported Mathcad syntax, not executed by a Python interpreter.
+
+## Minimal worksheet
+
+Save this as `calculation.yaml`, then follow the [worksheet workflow](workflow.md):
+
+```yaml
+schema_version: 1
+document:
+  title: Synthetic worksheet example
+worksheet:
+  paper: A4
+  orientation: portrait
+  margins_mm: {left: 5, top: 40, right: 5, bottom: 12.5}
+  grid: fine
+blocks:
+  - kind: heading
+    level: 1
+    text: A simple rectangle
+  - kind: math
+    expression: "width = 3 * mm"
+  - kind: math
+    expression: "height = 4 * mm"
+  - kind: math
+    expression: "area = width * height"
+  - kind: text
+    runs:
+      - kind: text
+        text: "Area: "
+      - kind: inline_math
+        expression: area
+        unit: mm2
+```
+
+## Document structure
 
 Required top-level keys are `schema_version: 1`, `document`, `worksheet`, and
 `blocks`. `document` accepts title, project, revision, author, calc_number, date,

@@ -1,5 +1,8 @@
 # Release validation
 
+For maintainers preparing a distribution, not routine worksheet authoring.
+Run commands in this reference from the repository root.
+
 Before distribution, run the checked-in CI against this tree, install both the
 wheel and sdist in fresh environments outside the checkout, and run the public
 workflow tests against each. Confirm runtime schemas, templates, metrics and
@@ -10,6 +13,11 @@ visually inspect the generated page images on supported local hosts.
 source tests, both package builds, and isolated installed-command/MCP tests.
 The MCP dependency is bounded to 1.x: the 2.x SDK has an incompatible API and
 requires a deliberate migration. The lockfile selects a supported 1.x patch.
+
+Prime tests skip by default. On a supported local host, opt in with
+`PYMCDX_TEST_PRIME=1 uv run pytest -m prime` (set the environment variable using
+the shell's native syntax on Windows). A passing no-Prime CI run does not establish
+desktop or numerical acceptance.
 
 `claude plugin validate .` checks plugin structure. It does not establish safe
 behaviour, numerical correctness, licensing, host compatibility or acceptance
@@ -45,13 +53,13 @@ visitors while the repository is private. Add a PyPI version badge and registry
 link only after a package is actually published. Leave the repository homepage
 unset until there is a dedicated documentation site.
 
-`docs/assets/social-preview.svg` is original project artwork using a synthetic
+`.github/social-preview.svg` is original project artwork using a synthetic
 worksheet illustration, explicitly not a Prime render. Convert it to a 1280×640
 PNG for GitHub (requires Cairo and the optional CairoSVG tool, not a runtime
 package dependency):
 
 ```bash
-uv run --no-project --with cairosvg==2.8.2 cairosvg docs/assets/social-preview.svg -o social-preview.png
+uv run --no-project --with cairosvg==2.8.2 cairosvg .github/social-preview.svg -o social-preview.png
 ```
 
 Inspect the PNG and keep it below 1 MB. The generated PNG is an upload artifact,
