@@ -2128,7 +2128,15 @@ def run_cli(parser, args):
         cmd_mcp(args)
 
 
+def configure_output() -> None:
+    """Keep CLI output Unicode-safe when Windows redirects it through a code page."""
+    for stream in (sys.stdout, sys.stderr):
+        if isinstance(stream, io.TextIOWrapper):
+            stream.reconfigure(encoding="utf-8")
+
+
 def main():
+    configure_output()
     parser, _ = make_parser()
     run_cli(parser, parser.parse_args())
 

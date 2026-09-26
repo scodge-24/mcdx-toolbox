@@ -12,7 +12,11 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from mcp.types import CallToolResult
 
-EXAMPLE = Path(__file__).resolve().parents[1] / "examples" / "basic.yaml"
+EXAMPLE = Path(
+    os.environ.get(
+        "PYMCDX_TEST_EXAMPLE", str(Path(__file__).resolve().parents[1] / "examples" / "basic.yaml")
+    )
+)
 
 
 def _command() -> list[str]:
@@ -26,6 +30,8 @@ def _cli(*args: str, cwd: Path) -> subprocess.CompletedProcess[str]:
         cwd=cwd,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        env={**os.environ, "PYTHONIOENCODING": "cp1252:strict"},
         check=False,
     )
 

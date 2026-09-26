@@ -21,6 +21,7 @@ uv run pymcdx build examples/basic.yaml example.mcdx --preview example.svg
 For an isolated CLI installation, run `uv tool install .` or `pipx install .`.
 For a Python environment, use `pip install .` or install the built wheel. The
 distribution name is `mcdx-toolbox`; the import name and command are `pymcdx`.
+CLI stdout and stderr are UTF-8, including when redirected on Windows.
 Registry name availability is not a reservation or publication guarantee.
 
 ## Capabilities and evidence

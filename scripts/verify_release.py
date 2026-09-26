@@ -4,16 +4,22 @@ from __future__ import annotations
 
 import os
 import subprocess
+import tarfile
 import tempfile
 from pathlib import Path
 
 
-def run(args: list[str], cwd: Path, *, cli: Path | None = None) -> None:
+def run(
+    args: list[str], cwd: Path, *, cli: Path | None = None, example: Path | None = None
+) -> None:
     env = dict(os.environ)
     env.pop("PYTHONPATH", None)
     env.pop("PYMCDX_TEST_COMMAND", None)
+    env.pop("PYMCDX_TEST_EXAMPLE", None)
     if cli is not None:
         env["PYMCDX_TEST_COMMAND"] = str(cli)
+    if example is not None:
+        env["PYMCDX_TEST_EXAMPLE"] = str(example)
     print("+", *args, flush=True)
     subprocess.run(args, cwd=cwd, env=env, check=True)  # noqa: S603
 
@@ -36,6 +42,13 @@ def main() -> None:
         sdist = list(artifacts.glob("*.tar.gz"))
         if len(wheel) != 1 or len(sdist) != 1:
             raise RuntimeError("expected exactly one wheel and one sdist")
+        extracted = scratch / "sdist-source"
+        with tarfile.open(sdist[0]) as archive:
+            archive.extractall(extracted, filter="data")
+        roots = list(extracted.iterdir())
+        if len(roots) != 1 or not (roots[0] / "examples/basic.yaml").is_file():
+            raise RuntimeError("sdist must include its synthetic examples/basic.yaml")
+        sdist_example = roots[0] / "examples/basic.yaml"
         for index, artifact in enumerate([*wheel, *sdist]):
             environment = scratch / f"installed-{index}"
             run(["uv", "venv", str(environment)], scratch)
@@ -53,7 +66,12 @@ def main() -> None:
                 scratch,
             )
             cli = python.with_name("pymcdx.exe" if os.name == "nt" else "pymcdx")
-            run([str(python), "-m", "pytest", str(root / "tests"), "-q"], scratch, cli=cli)
+            run(
+                [str(python), "-m", "pytest", str(root / "tests"), "-q"],
+                scratch,
+                cli=cli,
+                example=sdist_example if artifact == sdist[0] else None,
+            )
     print("Source, wheel and sdist checks passed. No publication performed.")
 
 
